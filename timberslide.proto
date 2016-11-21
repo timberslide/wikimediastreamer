@@ -1,0 +1,45 @@
+syntax = "proto3";
+package ts;
+
+service Ingest {
+  rpc StreamEvents (stream Event) returns (stream EventReply) {}
+}
+
+message Event {
+  string Topic = 1;
+  string Message = 2;
+  bool Done = 3;
+}
+
+message EventReply {
+}
+
+service Streamer {
+  rpc GetStream (Topic) returns (stream Event) {}
+}
+
+message Topic {
+  int64 ID = 1;
+  string Name = 2;
+  int64 Position = 3;
+}
+
+service Topics {
+  rpc registerTopic (Register) returns (RegisterReply) {}
+  rpc getTopics (TopicsReq) returns (TopicsReply) {}
+}
+
+message Register {
+  string Topic = 1;
+  string User = 2;
+}
+
+message RegisterReply {
+}
+
+message TopicsReq {
+}
+
+message TopicsReply {
+  repeated Topic topics = 1;
+}
