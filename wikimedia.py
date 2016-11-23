@@ -19,7 +19,11 @@ TS = None
 class WikiNamespace(socketIO_client.BaseNamespace):
     count = 0
     def on_change(self, change):
-        TS.send(TOPIC, json.dumps(change))
+        try:
+            TS.send(TOPIC, json.dumps(change))
+        except Exception as err:
+            sys.stderr.write("%s - Failed to send message to Timberslide - %s - %s\n" % (change, err))
+            return
         self.count += 1
         if datetime.datetime.now().timetuple().tm_sec == 0:
             sys.stderr.write("%s - Processed %d messages\n" % (datetime.datetime.today(), self.count))
