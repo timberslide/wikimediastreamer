@@ -22,7 +22,7 @@ class WikiNamespace(socketIO_client.BaseNamespace):
         try:
             TS.send(TOPIC, json.dumps(change))
         except Exception as err:
-            sys.stderr.write("%s - Failed to send message to Timberslide - %s - %s\n" % (change, err))
+            sys.stderr.write("%s - Failed to send message to Timberslide - %s - %s\n" % (datetime.datetime.today(), change, err))
             return
         self.count += 1
         if datetime.datetime.now().timetuple().tm_sec == 0:
